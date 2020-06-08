@@ -1,28 +1,28 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <TabManager></TabManager>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TabManager from "./components/TabManager";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: "App",
+  components: { TabManager },
+  created() {
+    this.$store.dispatch("initItems");
+    this.$store.dispatch("initTabs");
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  padding: 4px;
+  color: black;
 }
 </style>
