@@ -11,6 +11,10 @@ const addonSchema = new mongoose.Schema({
 	price: {
 		type: Number,
 		required: true
+	},
+	type: {
+		type: String,
+		required: true
 	}
 });
 

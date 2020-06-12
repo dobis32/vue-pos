@@ -10,6 +10,7 @@ export default {
   components: { TabManager },
   created() {
     this.$store.dispatch("initItems");
+    this.$store.dispatch("initAddons");
     this.$store.dispatch("initTabs");
   }
 };

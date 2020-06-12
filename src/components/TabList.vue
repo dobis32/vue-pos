@@ -29,7 +29,7 @@ export default {
 <style scoped>
 #container {
   height: 100%;
-  width: 320px;
+  width: 280px;
 }
 
 #heading,
@@ -40,6 +40,7 @@ export default {
 #list {
   overflow: scroll;
   height: 90%;
+  background-color: #fff;
 }
 
 h1 {

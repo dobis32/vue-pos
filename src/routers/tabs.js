@@ -22,6 +22,7 @@ router.get('/tabs', async (req, res) => {
 		let tabs;
 		if (id) tabs = await Tab.findById(id);
 		else tabs = await Tab.find({});
+		console.log(tabs);
 		res.send({ result: true, tabs });
 	} catch (error) {
 		console.log(error);
@@ -31,14 +32,20 @@ router.get('/tabs', async (req, res) => {
 
 router.patch('/tabs', async (req, res) => {
 	try {
-		const { tab } = req.body;
-		if (!tab) throw new Error('Invalid data!');
-		const tabToEdit = await Tab.findById(tab._id);
-		tab.check.forEach((item) => {
-			delete item.unsent;
+		const { tab, formattedCheck } = req.body;
+		console.log('formatted check', formattedCheck);
+		if (!tab || !formattedCheck) throw new Error('Invalid data!');
+		const tabToPatch = await Tab.findById(tab);
+		let updatedCheck = new Array();
+		formattedCheck.forEach((item) => {
+			let addons = new Array();
+			item.addons.forEach((addon) => addons.push(addon));
+			let updatedItem = { _id: item._id, addons };
+			updatedCheck.push(updatedItem);
 		});
-		tabToEdit.check = tab.check;
-		await tabToEdit.save();
+		console.log('updated check', updatedCheck);
+		tabToPatch.check = updatedCheck;
+		await tabToPatch.save();
 		const tabs = await Tab.find({});
 		res.send({ result: true, tabs });
 	} catch (error) {
@@ -47,20 +54,16 @@ router.patch('/tabs', async (req, res) => {
 	}
 });
 
-router.patch('/tabs/items/delete', async (req, res) => {
+router.delete('/tabs', async (req, res) => {
 	try {
-		const { tab, updatedCheck } = req.body;
-		if (!tab || !Array.isArray(updatedCheck)) throw new Error('Invalid data!');
-		// const updatedCheck = tab.check.filter((item) => item.selected != true);
-		const tabToPatch = await Tab.findById(tab._id);
-		updatedCheck.forEach((item) => delete item.selected);
-		tabToPatch.check = updatedCheck;
-		await tabToPatch.save();
+		const { id } = req.query;
+		if (!id) throw new Error('Invalid tab ID');
+		await Tab.findByIdAndRemove(id);
 		const tabs = await Tab.find({});
 		res.send({ result: true, tabs });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send({ result: false, message: 'Something went wrong...' });
+		res.send({ result: false });
 	}
 });
 

@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.post('/addons', async (req, res) => {
 	try {
-		const { name, price } = req.body;
-		if (!name || price < 0) throw new Error('Invalid data');
-		const addon = new AddOn({ name, price });
+		const { name, price, type } = req.body;
+		if (!name || price < 0 || !type) throw new Error('Invalid data');
+		const addon = new AddOn({ name, price, type });
 		await addon.save();
 		res.status(201).send({ result: true, addon });
 	} catch (error) {
@@ -16,13 +16,13 @@ router.post('/addons', async (req, res) => {
 	}
 });
 
-router.post('/addons', async (req, res) => {
+router.get('/addons', async (req, res) => {
 	try {
 		const addons = await AddOn.find({});
-		res.send({ addons });
+		res.send({ result: true, addons });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send({});
+		res.status(500).send({ result: false });
 	}
 });
 

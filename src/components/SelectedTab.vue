@@ -11,21 +11,28 @@
       </div>
     </div>
     <div class="row">
-      <CheckWidget v-bind:items="openTab.check"></CheckWidget>
-      <ItemsWidget></ItemsWidget>
+      <ActiveItemWidget v-if="activeItem >= 0"></ActiveItemWidget>
+      <CheckWidget v-else v-bind:items="openTab.check"></CheckWidget>
+      <AddonsWidget v-if="activeItem >= 0"></AddonsWidget>
+      <ItemsWidget v-else></ItemsWidget>
     </div>
   </div>
 </template>
 
 <script>
+import ActiveItemWidget from "./ActiveItemWidget";
 import CheckWidget from "./CheckWidget";
 import ItemsWidget from "./ItemsWidget";
+import AddonsWidget from "./AddonsWidget";
 export default {
   name: "SelectedTab",
-  components: { CheckWidget, ItemsWidget },
+  components: { CheckWidget, ItemsWidget, AddonsWidget, ActiveItemWidget },
   computed: {
     openTab() {
       return this.$store.state.openTab;
+    },
+    activeItem() {
+      return this.$store.state.activeItem;
     }
   },
   methods: {
@@ -42,8 +49,6 @@ export default {
 <style scoped>
 #container {
   height: 100%;
-  width: 100%;
-  background-color: #999;
 }
 
 #selected-tab-options button {

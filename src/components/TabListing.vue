@@ -19,11 +19,10 @@ export default {
 <style scoped>
 div {
   margin-top: 5px;
-  margin-left: 5px;
 }
 
 button {
-  width: 240px;
+  width: 100%;
   overflow: hidden;
 }
 </style>

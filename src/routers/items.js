@@ -5,8 +5,8 @@ const router = express.Router();
 router.post('/items', async (req, res) => {
 	try {
 		let { name, price, type } = req.body;
-		if (!name || !type) throw new Error('Invalid data!');
-		const item = new Item({ name, price, type });
+		if (!name || price < 0 || !type) throw new Error('Invalid data!');
+		const item = new Item({ name, price, type, addons: new Array() });
 		await item.save();
 		res.status(201).send({ result: true, item });
 	} catch (error) {

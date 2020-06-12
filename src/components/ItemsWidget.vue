@@ -13,8 +13,13 @@ export default {
     }
   },
   methods: {
-    addToTab(item) {
-      this.$store.dispatch("addItemToTab", item);
+    async addToTab(item) {
+      console.log("SELECTED ITEM", item);
+      const activeItem = await this.$store.dispatch("addItemToTab", {
+        ...item,
+        active: true
+      });
+      await this.$store.dispatch("setActiveItem", activeItem);
     }
   }
 };
@@ -23,6 +28,7 @@ export default {
 <style scoped>
 #items-container {
   margin-left: 40px;
+  background: orangered;
 }
 button {
   padding: 20px;

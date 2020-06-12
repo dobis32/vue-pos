@@ -1,7 +1,7 @@
 <template>
   <div id="manager-container">
     <TabList></TabList>
-    <SelectedTab></SelectedTab>
+    <SelectedTab v-if="openTab._id"></SelectedTab>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
   components: {
     TabList,
     SelectedTab
+  },
+  computed: {
+    openTab() {
+      return this.$store.state.openTab;
+    }
   }
 };
 </script>
@@ -21,6 +26,7 @@ export default {
 #manager-container {
   display: flex;
   height: 100vh;
+  background-color: #999;
 }
 hr {
   margin: 4px 0px;
